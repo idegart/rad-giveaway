@@ -3,7 +3,7 @@
     <form @submit.prevent autocomplete="off">
       <h1 class="h3 fw-normal">Розыгрыш</h1>
 
-      <div class="d-flex justify-content-around winner-code">
+      <div class="d-flex justify-content-around winner-code mx-auto" style="width: fit-content">
         <div v-for="n in 5" class="winner-code__char">
           <transition name="fade" mode="out-in">
             <span v-if="showCode(n - 1)" v-text="showCode(n - 1)"></span>
