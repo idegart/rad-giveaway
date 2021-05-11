@@ -1,5 +1,5 @@
 <template>
-  <main @keyup.space="loadWinner" class="text-center">
+  <main @keyup.space="loadWinner" class="text-center p-1">
     <form @submit.prevent autocomplete="off">
       <h1 class="h3 fw-normal">Розыгрыш</h1>
 

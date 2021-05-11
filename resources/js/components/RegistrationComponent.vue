@@ -1,13 +1,13 @@
 <template>
-  <main class="text-center">
+  <main class="text-center" style="min-width: 300px">
     <form @submit.prevent="submitForm" autocomplete="off">
       <h1 class="h3 fw-normal mb-3">Регистрация в конкурсе</h1>
 
       <div v-if="successMessage" class="alert alert-success" role="alert" v-text="successMessage"></div>
 
       <div class="form-floating mt-3">
-        <input v-model="form.name" type="text" class="form-control" :class="validName" id="name" placeholder="Ваше Имя, Фамилия, Отчество" :disabled="loading">
-        <label for="name">Ваше Имя, Фамилия, Отчество</label>
+        <input v-model="form.name" type="text" class="form-control" :class="validName" id="name" placeholder="Ваше Фамилия, Имя, Отчество" :disabled="loading">
+        <label for="name">Ваше Фамилия, Имя, Отчество</label>
       </div>
 
       <div class="form-floating mt-3">
