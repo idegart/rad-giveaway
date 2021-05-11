@@ -38,7 +38,7 @@ class RegisterRequest extends FormRequest
     {
         return Code::query()
             ->where('code', $this->input('code'))
-            ->where('valid_date', now())
+            ->where('valid_date', now()->toDateString())
             ->firstOrFail();
     }
 }
