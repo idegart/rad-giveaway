@@ -14,7 +14,7 @@ class LotteryService
         $participant = new Participant();
         $participant->name = $name;
         $participant->code()->associate($code);
-        $participant->date = now();
+        $participant->date = now()->toDateString();
         $participant->save();
 
         return $participant;
@@ -26,7 +26,7 @@ class LotteryService
     public function winner(): ?Participant
     {
         return Participant::query()
-            ->where('date', now())
+            ->where('date', now()->toDateString())
             ->inRandomOrder()
             ->with('code')
             ->first();
