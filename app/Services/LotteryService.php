@@ -32,13 +32,15 @@ class LotteryService
             ->first();
     }
 
-    public function uploadCodes(UploadedFile $file)
+    public function uploadCodes(UploadedFile $file): void
     {
         $content = $file->getContent();
-        $data = array_map(function (string $code) {
+        $data = array_map(static function (string $code) {
             return [
                 'code' => $code,
                 'valid_date' => now()->toDateString(),
+                'updated_at' => now(),
+                'created_at' => now(),
             ];
         }, explode(PHP_EOL, $content));
 

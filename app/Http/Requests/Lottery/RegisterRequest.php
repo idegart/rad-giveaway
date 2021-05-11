@@ -21,7 +21,7 @@ class RegisterRequest extends FormRequest
             'code' => [
                 'required',
                 Rule::exists((new Code)->getTable(), 'code')
-                    ->where('valid_date', now()),
+                    ->where('valid_date', now()->toDateString()),
             ]
         ];
     }
