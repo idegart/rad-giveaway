@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Lottery;
 
 use App\Models\Code;
+use App\Models\Participant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
@@ -19,10 +20,27 @@ class RegisterRequest extends FormRequest
                 'max:255',
             ],
             'code' => [
+                'bail',
                 'required',
                 Rule::exists((new Code)->getTable(), 'code')
                     ->where('valid_date', now()->toDateString()),
+                function ($attribute, $value, $fail) {
+                    $code = $this->code();
+
+                    if (Participant::query()->where('code_id', $code->getKey())->exists()) {
+                        return $fail('Данный код уже зарегестрирован');
+                    }
+
+                    return null;
+                },
             ]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'code.exists' => 'Код не существует'
         ];
     }
 

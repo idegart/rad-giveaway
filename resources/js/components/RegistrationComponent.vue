@@ -11,8 +11,13 @@
       </div>
 
       <div class="form-floating mt-3">
-        <input v-model="form.code" type="text" class="form-control" :class="validCode" id="code" placeholder="Ваш код" :disabled="loading">
+        <input v-model="form.code" type="text" class="form-control" aria-describedby="validationCodeFeedback" :class="validCode" id="code" placeholder="Ваш код" :disabled="loading">
         <label for="code">Ваш код</label>
+        <div v-if="codeErrors.length > 0" id="validationCodeFeedback" class="invalid-feedback" style="text-align: left">
+          <ul class="m-0">
+            <li v-for="error in codeErrors" v-text="error"></li>
+          </ul>
+        </div>
       </div>
 
       <button :disabled="btnDisabled" class="w-100 btn btn-lg btn-primary mt-3" type="submit">Отправить</button>
@@ -53,6 +58,13 @@ export default {
               ? 'is-invalid'
               : 'is-valid'
           : ''
+    },
+    codeErrors () {
+      if (!this.errors.hasOwnProperty('code')) {
+        return []
+      }
+
+      return this.errors['code']
     },
   },
 
