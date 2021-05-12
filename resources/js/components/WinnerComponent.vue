@@ -28,7 +28,7 @@
 <script>
 import axios from "@plugin/axios";
 
-const duration = 600;
+const duration = 1000;
 
 export default {
   name: "WinnerComponent",
@@ -54,10 +54,10 @@ export default {
             }
             this.winner = data.data
             let parts = this.winner.code.code.split('')
-            parts.forEach(part => {
+            parts.forEach((part, index) => {
               setTimeout(() => {
                 this.codeParts.push(part)
-              }, part * duration)
+              }, (index + 1) * duration)
             })
 
             setTimeout(() => {
