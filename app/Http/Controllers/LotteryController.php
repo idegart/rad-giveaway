@@ -11,7 +11,12 @@ class LotteryController extends Controller
 {
     public function register(RegisterRequest $request, LotteryService $lotteryService): JsonResponse
     {
-        $lotteryService->register($request->name(), $request->code());
+        $lotteryService->register(
+            $request->input('name'),
+            $request->input('day'),
+            $request->input('month'),
+            $request->input('year'),
+        );
 
         return response()->json([
             'success' => true,
@@ -28,6 +33,13 @@ class LotteryController extends Controller
 
         return response()->json([
             'success' => false,
+        ]);
+    }
+
+    public function deleteParticipants(WinnerRequest $request, LotteryService $lotteryService): JsonResponse
+    {
+        return response()->json([
+            'success' => $lotteryService->deleteParticipants(),
         ]);
     }
 

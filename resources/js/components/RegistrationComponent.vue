@@ -1,26 +1,48 @@
 <template>
-  <main class="text-center" style="min-width: 300px">
+  <main class="text-center px-3" style="min-width: 300px">
     <form @submit.prevent="submitForm" autocomplete="off">
       <h1 class="h3 fw-normal mb-3">Регистрация в конкурсе</h1>
 
-      <div v-if="successMessage" class="alert alert-success" role="alert" v-text="successMessage"></div>
+      <template v-if="successMessage">
+        <div class="alert alert-success" role="alert" v-text="successMessage"></div>
+      </template>
+      <template v-else>
 
-      <div class="form-floating mt-3">
-        <input v-model="form.name" type="text" class="form-control" :class="validName" id="name" placeholder="Ваше Фамилия, Имя, Отчество" :disabled="loading">
-        <label for="name">Ваше Фамилия, Имя, Отчество</label>
-      </div>
-
-      <div class="form-floating mt-3">
-        <input v-model="form.code" type="text" class="form-control" aria-describedby="validationCodeFeedback" :class="validCode" id="code" placeholder="Ваш код" :disabled="loading">
-        <label for="code">Ваш код</label>
-        <div v-if="codeErrors.length > 0" id="validationCodeFeedback" class="invalid-feedback" style="text-align: left">
-          <ul class="m-0">
-            <li v-for="error in codeErrors" v-text="error"></li>
+        <div v-if="errors" class="alert alert-danger text-left" role="alert" style="text-align: left">
+          <ul class="list-unstyled m-0">
+            <li v-for="error in errors">
+              {{ error.join("\n") }}
+            </li>
           </ul>
         </div>
-      </div>
 
-      <button :disabled="btnDisabled" class="w-100 btn btn-lg btn-primary mt-3" type="submit">Отправить</button>
+        <div class="form-floating mt-3">
+          <input v-model="form.name" type="text" class="form-control" id="name" placeholder="Ваше Фамилия, Имя, Отчество" :disabled="loading">
+          <label for="name">Ваше Фамилия, Имя, Отчество</label>
+        </div>
+
+        <div class="row mt-3 g-2">
+          <div class="col-4">
+            <select v-model="form.day" class="form-select form-select-lg" :disabled="loading">
+              <option :value="null" disabled>День</option>
+              <option v-for="n in 31" :value="n" v-text="n"></option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select v-model="form.month" class="form-select form-select-lg" :disabled="loading">
+              <option :value="null" disabled>Месяц</option>
+              <option v-for="n in Object.keys(months)" :value="n" v-text="months[n]"></option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select v-model="form.year" class="form-select form-select-lg" :disabled="loading">
+              <option :value="null" disabled>Год</option>
+              <option v-for="n in years" :value="n" v-text="n"></option>
+            </select>
+          </div>
+        </div>
+        <button :disabled="btnDisabled" class="w-100 btn btn-lg btn-primary mt-3" type="submit">Отправить</button>
+      </template>
     </form>
   </main>
 </template>
@@ -33,46 +55,50 @@ export default {
   data: () => ({
     form: {
       name: '',
-      code: '',
+      day: null,
+      month: null,
+      year: null,
     },
+    errors: null,
     loading: false,
-    errors: [],
     submitted: false,
     successMessage: null,
   }),
 
   computed: {
     btnDisabled() {
-      return !(this.form.name && this.form.code && !this.loading)
+      return !(this.form.name && this.form.day && this.form.month && this.form.year && !this.loading)
     },
-    validName () {
-      return this.submitted
-          ? this.errors.hasOwnProperty('name')
-              ? 'is-invalid'
-              : 'is-valid'
-          : ''
-    },
-    validCode () {
-      return this.submitted
-          ? this.errors.hasOwnProperty('code')
-              ? 'is-invalid'
-              : 'is-valid'
-          : ''
-    },
-    codeErrors () {
-      if (!this.errors.hasOwnProperty('code')) {
-        return []
+    months () {
+      return {
+        1: 'Январь',
+        2: 'Февраль',
+        3: 'Март',
+        4: 'Апрель',
+        5: 'Май',
+        6: 'Июнь',
+        7: 'Июль',
+        8: 'Август',
+        9: 'Сентябрь',
+        10: 'Октябрь',
+        11: 'Ноябрь',
+        12: 'Декабрь',
       }
-
-      return this.errors['code']
     },
+    years () {
+      let years = []
+      for (let i = 2021 - 18; i > 1950; i--) {
+        years.push(i)
+      }
+      return years
+    }
   },
 
   methods: {
     submitForm() {
       this.loading = true
       this.successMessage = null
-      this.errors = []
+      this.errors = null
       this.submitted = false
 
       axios.post('api/register', this.form)

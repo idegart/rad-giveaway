@@ -9,12 +9,13 @@ use Illuminate\Http\UploadedFile;
 
 class LotteryService
 {
-    public function register(string $name, Code $code): Participant
+    public function register(string $name, int $day, int $month, int $year): Participant
     {
         $participant = new Participant();
         $participant->name = $name;
-        $participant->code()->associate($code);
-        $participant->date = now()->toDateString();
+        $participant->day = $day;
+        $participant->month = $month;
+        $participant->year = $year;
         $participant->save();
 
         return $participant;
@@ -25,11 +26,7 @@ class LotteryService
      */
     public function winner(): ?Participant
     {
-        return Participant::query()
-            ->where('date', now()->toDateString())
-            ->inRandomOrder()
-            ->with('code')
-            ->first();
+        return Participant::query()->inRandomOrder()->first();
     }
 
     public function uploadCodes(UploadedFile $file): void
@@ -45,5 +42,10 @@ class LotteryService
         }, explode(PHP_EOL, $content));
 
         Code::query()->insert($data);
+    }
+
+    public function deleteParticipants(): bool
+    {
+        return Participant::query()->delete();
     }
 }
