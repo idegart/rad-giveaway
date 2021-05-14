@@ -17,8 +17,18 @@
         </div>
 
         <div class="form-floating mt-3">
-          <input v-model="form.name" type="text" class="form-control" id="name" placeholder="Ваше Фамилия, Имя, Отчество" :disabled="loading">
-          <label for="name">Ваше Фамилия, Имя, Отчество</label>
+          <input v-model="form.surname" type="text" class="form-control" id="surname" placeholder="Фамилия" :disabled="loading">
+          <label for="surname">Фамилия</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.name" type="text" class="form-control" id="name" placeholder="Имя" :disabled="loading">
+          <label for="name">Имя</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.patronymic" type="text" class="form-control" id="patronymic" placeholder="Отчество" :disabled="loading">
+          <label for="patronymic">Отчество</label>
         </div>
 
         <div class="row mt-3 g-2">
@@ -54,7 +64,9 @@ export default {
   name: "RegistrationComponent",
   data: () => ({
     form: {
+      surname: '',
       name: '',
+      patronymic: '',
       day: null,
       month: null,
       year: null,
@@ -67,7 +79,7 @@ export default {
 
   computed: {
     btnDisabled() {
-      return !(this.form.name && this.form.day && this.form.month && this.form.year && !this.loading)
+      return !(this.form.surname && this.form.name && this.form.day && this.form.month && this.form.year && !this.loading)
     },
     months () {
       return {

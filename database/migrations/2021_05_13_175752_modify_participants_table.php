@@ -18,7 +18,9 @@ class ModifyParticipantsTable extends Migration
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
 
+            $table->string('surname');
             $table->string('name');
+            $table->string('patronymic')->nullable();
 
             $table->integer('day');
             $table->integer('month');
@@ -26,7 +28,7 @@ class ModifyParticipantsTable extends Migration
 
             $table->timestamps();
 
-            $table->unique(['name', 'day', 'month', 'year']);
+            $table->unique(['surname', 'name', 'patronymic', 'day', 'month', 'year']);
         });
     }
 

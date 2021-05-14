@@ -9,10 +9,12 @@ use Illuminate\Http\UploadedFile;
 
 class LotteryService
 {
-    public function register(string $name, int $day, int $month, int $year): Participant
+    public function register(string $surname, string $name, ?string $patronymic, int $day, int $month, int $year): Participant
     {
         $participant = new Participant();
+        $participant->surname = $surname;
         $participant->name = $name;
+        $participant->patronymic = $patronymic;
         $participant->day = $day;
         $participant->month = $month;
         $participant->year = $year;

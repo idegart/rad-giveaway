@@ -55,7 +55,7 @@
       <transition name="fade" mode="out-in">
         <div v-if="winner" class="mt-3">
           <h1>Победитель!</h1>
-          <h2 v-text="winner.name"></h2>
+          <h2 v-text="winner.full_name"></h2>
         </div>
       </transition>
     </form>

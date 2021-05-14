@@ -4,21 +4,27 @@ namespace App\Http\Requests\Lottery;
 
 use App\Models\Participant;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class RegisterRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
+            'surname' => [
+                'required',
+                'string',
+                'max:255',
+            ],
             'name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique((new Participant)->getTable(), 'name')
-                    ->where('day', $this->input('day'))
-                    ->where('month', $this->input('month'))
-                    ->where('year', $this->input('year'))
+            ],
+            'patronymic' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
             'day' => [
                 'required',
@@ -41,10 +47,21 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
+    public function withValidator(Validator $validator): void
     {
-        return [
-            'name.unique' => 'Данный участник уже зарегестрирован',
-        ];
+        $validator->after(function ($validator) {
+            if ($this->notUniqueName()) {
+                $validator->errors()->add('full_name', 'Данный участник уже зарегестрирован');
+            }
+        });
+    }
+
+    public function notUniqueName(): bool
+    {
+        return Participant::query()
+            ->where('surname', $this->input('surname'))
+            ->where('name', $this->input('name'))
+            ->where('patronymic', $this->input('patronymic'))
+            ->exists();
     }
 }

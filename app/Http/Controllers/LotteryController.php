@@ -12,7 +12,9 @@ class LotteryController extends Controller
     public function register(RegisterRequest $request, LotteryService $lotteryService): JsonResponse
     {
         $lotteryService->register(
+            $request->input('surname'),
             $request->input('name'),
+            $request->input('patronymic'),
             $request->input('day'),
             $request->input('month'),
             $request->input('year'),

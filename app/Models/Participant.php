@@ -10,8 +10,17 @@ class Participant extends Model
 {
     use HasFactory;
 
+    protected $appends = [
+        'full_name',
+    ];
+
     public function code(): BelongsTo
     {
         return $this->belongsTo(Code::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->surname} {$this->name} {$this->patronymic}";
     }
 }
