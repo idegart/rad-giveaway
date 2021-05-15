@@ -52,18 +52,19 @@
         Поиск победителя
       </div>
 
-      <transition name="fade" mode="out-in">
-        <div v-if="winner" class="mt-3">
-          <h1>Победитель!</h1>
-          <h2 v-text="winner.full_name"></h2>
-        </div>
-      </transition>
+<!--      <transition name="fade" mode="out-in">-->
+<!--        <div v-if="winner" class="mt-3">-->
+<!--          <h1>Победитель!</h1>-->
+<!--          <h2 v-text="winner.full_name"></h2>-->
+<!--        </div>-->
+<!--      </transition>-->
     </form>
   </main>
 </template>
 
 <script>
 import axios from "@plugin/axios";
+import swal from 'sweetalert';
 
 export default {
   name: "WinnerComponent",
@@ -107,6 +108,9 @@ export default {
               alert("Победитель не найден")
             }
             this.winner = data.data
+            setTimeout(() => {
+              swal("Найден победитель", this.winner.full_name, "success");
+            }, 1000)
           })
           .catch(() => {
             alert("При поиске победителя возникла ошибка")
