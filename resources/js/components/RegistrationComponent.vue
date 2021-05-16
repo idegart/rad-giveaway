@@ -32,6 +32,9 @@
         </div>
 
         <div class="row mt-3 g-2">
+          <div class="text-left" style="text-align: left">
+            <label for="patronymic"><b>Дата рождения</b></label>
+          </div>
           <div class="col-4">
             <select v-model="form.day" class="form-select form-select-lg" :disabled="loading">
               <option :value="null" disabled>День</option>
