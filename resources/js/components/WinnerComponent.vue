@@ -52,12 +52,6 @@
         Поиск победителя
       </div>
 
-<!--      <transition name="fade" mode="out-in">-->
-<!--        <div v-if="winner" class="mt-3">-->
-<!--          <h1>Победитель!</h1>-->
-<!--          <h2 v-text="winner.full_name"></h2>-->
-<!--        </div>-->
-<!--      </transition>-->
     </form>
   </main>
 </template>
@@ -109,7 +103,11 @@ export default {
             }
             this.winner = data.data
             setTimeout(() => {
-              swal("Найден победитель", this.winner.full_name, "success");
+              swal({
+                title: this.winner.full_name,
+                text: this.winner.birthday,
+                icon: 'success'
+              })
             }, 1000)
           })
           .catch(() => {

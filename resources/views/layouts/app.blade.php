@@ -13,9 +13,6 @@
         html, body {
             height: 100%;
         }
-        body {
-            background-color: #f5f5f5;
-        }
     </style>
 
     <script src="{{ mix('dist/js/app.js') }}" defer></script>

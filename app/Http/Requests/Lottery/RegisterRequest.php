@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Lottery;
 
 use App\Models\Participant;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -53,6 +54,10 @@ class RegisterRequest extends FormRequest
             if ($this->notUniqueName()) {
                 $validator->errors()->add('full_name', 'Данный участник уже зарегестрирован');
             }
+
+            if (!$this->dateValid()) {
+                $validator->errors()->add('birthday', 'Участник младше 18 лет');
+            }
         });
     }
 
@@ -63,5 +68,14 @@ class RegisterRequest extends FormRequest
             ->where('name', $this->input('name'))
             ->where('patronymic', $this->input('patronymic'))
             ->exists();
+    }
+
+    public function dateValid(): bool
+    {
+        return Carbon::create(
+            $this->input('year'),
+            $this->input('month'),
+            $this->input('day'),
+        )->lessThanOrEqualTo(Carbon::create(2003, 5, 21));
     }
 }

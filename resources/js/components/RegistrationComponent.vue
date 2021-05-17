@@ -1,7 +1,7 @@
 <template>
   <main class="text-center px-3" style="min-width: 300px">
     <form @submit.prevent="submitForm" autocomplete="off">
-      <h1 class="h3 fw-normal mb-3">Регистрация в конкурсе</h1>
+      <h1 class="h3 fw-normal mb-3">Регистрация для участия в розыгрыше Hisense:</h1>
 
       <template v-if="successMessage">
         <div class="alert alert-success" role="alert" v-text="successMessage"></div>
@@ -118,7 +118,7 @@ export default {
 
       axios.post('api/register', this.form)
           .then(() => {
-            this.successMessage = "Регистрация успешно завершена"
+            this.successMessage = "Отлично! Вы зарегистрированы, ожидайте розыгрыша призов в 18.00 у главной сцены."
             this.form.code = ''
             this.form.name = ''
 
@@ -139,5 +139,21 @@ export default {
 </script>
 
 <style scoped>
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #09A9A5;
+  border-color: #09A9A5;
+}
 
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+  pointer-events: none;
+  opacity: 1;
+}
+
+.form-select-lg {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  font-size: 1rem;
+}
 </style>
