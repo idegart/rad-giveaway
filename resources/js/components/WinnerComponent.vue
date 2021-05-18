@@ -4,46 +4,9 @@
       <h1 class="h3 fw-normal">Розыгрыш</h1>
 
       <div class="d-flex justify-content-around winner-code mx-auto" style="width: fit-content">
-        <div class="winner-code__char">
+        <div v-for="n in 10" class="winner-code__char">
           <transition name="fade" mode="out-in">
-            <span v-if="day" v-text="day[0]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="day" v-text="day[1]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">-</div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="month[0]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="month[1]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">-</div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="year[0]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="year[1]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="year[2]"></span>
-          </transition>
-        </div>
-        <div class="winner-code__char">
-          <transition name="fade" mode="out-in">
-            <span v-if="winner" v-text="year[3]"></span>
+            <span v-if="dateChar(n)" v-text="dateChar(n)"></span>
           </transition>
         </div>
       </div>
@@ -65,50 +28,53 @@ export default {
 
   data: () => ({
     winner: null,
-    codeParts: null,
     loading: false,
+    birthday: null,
+    showing: false,
   }),
 
-  computed: {
-    day () {
-      if (!this.winner) {
-        return null
-      }
-      return this.winner.day.toString().padStart(2, '0')
-    },
-    month () {
-      if (!this.winner) {
-        return null
-      }
-      return this.winner.month.toString().padStart(2, '0')
-    },
-    year () {
-      if (!this.winner) {
-        return null
-      }
-      return this.winner.year.toString()
-    },
-  },
-
   methods: {
+    dateChar (n) {
+      if (!this.birthday) {
+        return null
+      }
+
+      return this.birthday[n - 1] || null
+    },
     loadWinner() {
       this.loading = true
       this.winner = null
-      this.codeParts = []
 
       axios.post('api/winner')
           .then(({data}) => {
             if (data.success === false) {
               alert("Победитель не найден")
+              return
             }
+
+            this.showing = true
+
             this.winner = data.data
+
+            this.birthday = []
+
+            this.winner.birthday.split('').forEach((char, index) => {
+              setTimeout(() => {
+                this.birthday.push(char)
+              }, index * 500)
+            })
+
             setTimeout(() => {
               swal({
                 title: this.winner.full_name,
                 text: this.winner.birthday,
                 icon: 'success'
               })
-            }, 1000)
+            }, 5500)
+
+            setTimeout(() => {
+              this.showing = false
+            }, 6000)
           })
           .catch(() => {
             alert("При поиске победителя возникла ошибка")
@@ -119,7 +85,7 @@ export default {
     },
     doCommand(e) {
       if (e.code === 'Space') {
-        if (!this.loading) {
+        if (!this.loading && !this.showing) {
           this.loadWinner()
         }
       }
@@ -162,6 +128,8 @@ export default {
   border-right: 1px solid #ced4da;
   padding: .5rem .7rem;
   text-align: center;
+  width: 30px;
+  height: 40px;
 }
 .winner-code__char:last-child {
   border-right: none;

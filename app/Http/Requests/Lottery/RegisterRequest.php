@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
                 'max:255',
             ],
             'patronymic' => [
-                'nullable',
+                'required',
                 'string',
                 'max:255',
             ],
@@ -51,22 +51,25 @@ class RegisterRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
-            if ($this->notUniqueName()) {
-                $validator->errors()->add('full_name', 'Данный участник уже зарегестрирован');
+            if ($this->participantExists()) {
+                $validator->errors()->add('full_name', 'Вы уже зарегистрированы! Повторная регистрация невозможна.');
             }
 
             if (!$this->dateValid()) {
-                $validator->errors()->add('birthday', 'Участник младше 18 лет');
+                $validator->errors()->add('birthday', 'Регистрация участников не достигших 18 лет невозможна.');
             }
         });
     }
 
-    public function notUniqueName(): bool
+    public function participantExists(): bool
     {
         return Participant::query()
             ->where('surname', $this->input('surname'))
             ->where('name', $this->input('name'))
             ->where('patronymic', $this->input('patronymic'))
+            ->where('day', $this->input('day'))
+            ->where('month', $this->input('month'))
+            ->where('year', $this->input('year'))
             ->exists();
     }
 

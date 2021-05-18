@@ -7,15 +7,6 @@
         <div class="alert alert-success" role="alert" v-text="successMessage"></div>
       </template>
       <template v-else>
-
-        <div v-if="errors" class="alert alert-danger text-left" role="alert" style="text-align: left">
-          <ul class="list-unstyled m-0">
-            <li v-for="error in errors">
-              {{ error.join("\n") }}
-            </li>
-          </ul>
-        </div>
-
         <div class="form-floating mt-3">
           <input v-model="form.surname" type="text" class="form-control" id="surname" placeholder="Фамилия" :disabled="loading">
           <label for="surname">Фамилия</label>
@@ -62,6 +53,7 @@
 
 <script>
 import axios from "@plugin/axios";
+import swal from 'sweetalert';
 
 export default {
   name: "RegistrationComponent",
@@ -74,7 +66,6 @@ export default {
       month: null,
       year: null,
     },
-    errors: null,
     loading: false,
     submitted: false,
     successMessage: null,
@@ -82,7 +73,7 @@ export default {
 
   computed: {
     btnDisabled() {
-      return !(this.form.surname && this.form.name && this.form.day && this.form.month && this.form.year && !this.loading)
+      return !(this.form.surname && this.form.name && this.form.patronymic && this.form.day && this.form.month && this.form.year && !this.loading)
     },
     months () {
       return {
@@ -119,14 +110,15 @@ export default {
       axios.post('api/register', this.form)
           .then(() => {
             this.successMessage = "Отлично! Вы зарегистрированы, ожидайте розыгрыша призов в 18.00 у главной сцены."
-            this.form.code = ''
-            this.form.name = ''
-
           })
           .catch(({response}) => {
             let errors = response.data.errors
+
             if (errors) {
-              this.errors = errors
+              swal({
+                title: Object.values(errors).join('\n'),
+                icon: 'error'
+              })
             }
           })
           .finally(() => {
@@ -155,5 +147,10 @@ export default {
   padding-bottom: .5rem;
   padding-left: 1rem;
   font-size: 1rem;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #09A9A5;
+  border-color: #09A9A5;
 }
 </style>
