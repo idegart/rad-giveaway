@@ -1,7 +1,7 @@
 <template>
   <main @keyup.space="loadWinner" class="text-center p-1">
     <form @submit.prevent autocomplete="off">
-      <h1 class="h3 fw-normal">Розыгрыш</h1>
+      <h1 class="h3 fw-normal" style="font-size: 47px;color: #ffffff;font-weight: 400 !important;margin-bottom: 23px;">Розыгрыш</h1>
 
       <div class="d-flex justify-content-around winner-code mx-auto" style="width: fit-content">
         <div v-for="n in 10" class="winner-code__char">
@@ -11,11 +11,16 @@
         </div>
       </div>
 
-      <div v-if="loading" class="alert alert-info mt-3" role="alert">
-        Поиск победителя
-      </div>
+      <img class="wp-image-17 size-full aligncenter" src="/assets/h.png" alt="" width="169" height="264" style="margin-top: -33px;margin-left: -29px;">
 
     </form>
+
+    <div v-if="showPopup" id="popup-img-winner" class="popup-img-winner" data-show="true"></div>
+
+    <div style="font-size: 34px;color: #ffffff;font-weight: 700;position: fixed;right: 52px;top: 82%;padding: 10px;line-height: 42px;">
+      #hisenserussia <br>
+      #Твойдомтвойстадион
+    </div>
   </main>
 </template>
 
@@ -31,6 +36,7 @@ export default {
     loading: false,
     birthday: null,
     showing: false,
+    showPopup: true,
   }),
 
   methods: {
@@ -61,20 +67,19 @@ export default {
             this.winner.birthday.split('').forEach((char, index) => {
               setTimeout(() => {
                 this.birthday.push(char)
-              }, index * 500)
+              }, index * 1500)
             })
 
             setTimeout(() => {
               swal({
                 title: this.winner.full_name,
                 text: this.winner.birthday,
-                icon: 'success'
+                icon: '/assets/fav.png',
+                buttons: false,
               })
-            }, 5500)
 
-            setTimeout(() => {
               this.showing = false
-            }, 6000)
+            }, 1500 * this.winner.birthday.split('').length)
           })
           .catch(() => {
             alert("При поиске победителя возникла ошибка")
@@ -85,9 +90,13 @@ export default {
     },
     doCommand(e) {
       if (e.code === 'Space') {
-        if (!this.loading && !this.showing) {
+        if (!this.loading && !this.showing && !this.showPopup) {
           this.loadWinner()
         }
+      }
+
+      if (e.key === "q" || e.key === "Q" || e.key === "й" || e.key === "Й") {
+        this.showPopup = !this.showPopup
       }
     },
   },
@@ -118,7 +127,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .winner-code {
   border-radius: .3rem;
   background-color: #e9ecef;
@@ -141,5 +150,30 @@ export default {
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.swal-modal {
+  background-color: #fffffffc;
+  border-radius: 32px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.swal-button-container {
+  display: none;
+}
+
+.winner-code {
+  border-radius: 7px;
+  background-color: #F8F8F8;
+  border: 3px solid #000000;
+}
+
+.winner-code__char {
+  border-right: 2px solid #000000;
+  padding: .5rem .7rem;
+  text-align: center;
+  width: 61px;
+  height: 88px;
+  font-size: 48px;
+  font-weight: 400;
 }
 </style>

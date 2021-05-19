@@ -1,5 +1,5 @@
 <template>
-  <main class="text-center">
+  <main class="text-center" style="color: white;">
 
     <template v-if="success">
       <div class="alert alert-success" role="alert">
