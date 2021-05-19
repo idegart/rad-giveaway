@@ -23,7 +23,7 @@
 
     <style>
         .popup-img-winner {
-            background-image: url("/assets/back.png");
+            background-image: url("/assets/b2.png");
             background-color: #fff;
             background-repeat: no-repeat;
             background-size: contain;
