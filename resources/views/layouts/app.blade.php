@@ -11,7 +11,8 @@
 
     <link rel="shortcut icon" href="/assets/fav.png" type="image/x-icon">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
 
     <style>
         html, body {
@@ -37,17 +38,26 @@
             z-index: 9999;
         }
     </style>
+
 </head>
 <body>
+@if(Route::currentRouteName() === 'page.winner')
+    <style>
+        .swal-modal {
+            width: 576px;
+        }
+    </style>
+@endif
+
 <div id="app" class="d-flex h-100 justify-content-center align-items-center"
      style="
              background-repeat: no-repeat;
      @if(\Illuminate\Support\Facades\Route::currentRouteName() !== 'registration')background-image: url('/assets/back.png');@endif
-     -moz-background-size: 100%;
-     -webkit-background-size:
-     100%;-o-background-size:
-     100%;background-size: 100%;
-"
+             -moz-background-size: 100%;
+             -webkit-background-size:
+             100%;-o-background-size:
+             100%;background-size: 100%;
+             "
 >
     @yield('content')
 </div>
