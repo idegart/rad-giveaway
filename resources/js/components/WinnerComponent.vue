@@ -17,7 +17,7 @@
 
     <div v-if="showPopup" id="popup-img-winner" class="popup-img-winner" data-show="true"></div>
 
-    <div style="font-size: 34px;color: #ffffff;font-weight: 700;position: fixed;right: 52px;top: 82%;padding: 10px;line-height: 42px;">
+    <div style="font-size: 34px;color: rgb(255, 255, 255);font-weight: 700;position: fixed;right: 52px;top: 82%;padding: 10px;line-height: 42px;text-align: left;">
       #hisenserussia <br>
       #Твойдомтвойстадион
     </div>
@@ -153,6 +153,7 @@ export default {
 }
 
 .swal-modal {
+  width: 576px;
   background-color: #fffffffc;
   border-radius: 32px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -175,5 +176,18 @@ export default {
   height: 88px;
   font-size: 48px;
   font-weight: 400;
+}
+.swal-title {
+  color: #000000;
+}
+.swal-text {
+  font-size: 27px;
+  color: #000000;
+}
+.swal-icon swal-icon--custom {
+  width: 133px;
+  height: 207px;
+  margin-top: -5px;
+  margin-bottom: -15px;
 }
 </style>
