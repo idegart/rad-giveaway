@@ -74,7 +74,7 @@ export default {
               swal({
                 title: this.winner.full_name,
                 text: this.winner.birthday,
-                icon: '/assets/fav.png',
+                icon: '/assets/h.png',
                 buttons: false,
               })
 
