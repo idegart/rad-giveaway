@@ -1,7 +1,7 @@
 <template>
   <main class="text-center px-3" style="min-width: 300px">
     <form @submit.prevent="submitForm" autocomplete="off">
-      <h1 class="h3 fw-normal" style="font-size: 47px;color: #ffffff;font-weight: 400 !important;margin-bottom: 23px;">
+      <h1 class="h3 fw-normal mb-3">
         Регистрация для участия в розыгрыше Hisense:
       </h1>
 
@@ -26,7 +26,7 @@
 
         <div class="row mt-3 g-2">
           <div class="text-left" style="text-align: left">
-            <label for="patronymic" style="color: white"><b>Дата рождения</b></label>
+            <label for="patronymic"><b>Дата рождения</b></label>
           </div>
           <div class="col-4">
             <select v-model="form.day" class="form-select form-select-lg" :disabled="loading">

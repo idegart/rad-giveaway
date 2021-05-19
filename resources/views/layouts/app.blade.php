@@ -39,7 +39,16 @@
     </style>
 </head>
 <body>
-<div id="app" class="d-flex h-100 justify-content-center align-items-center" style="background-repeat: no-repeat;background-image: url('/assets/back.png');-moz-background-size: 100%;-webkit-background-size: 100%;-o-background-size: 100%;background-size: 100%;">
+<div id="app" class="d-flex h-100 justify-content-center align-items-center"
+     style="
+             background-repeat: no-repeat;
+     @if(\Illuminate\Support\Facades\Route::currentRouteName() !== 'registration')background-image: url('/assets/back.png');@endif
+     -moz-background-size: 100%;
+     -webkit-background-size:
+     100%;-o-background-size:
+     100%;background-size: 100%;
+"
+>
     @yield('content')
 </div>
 </body>
