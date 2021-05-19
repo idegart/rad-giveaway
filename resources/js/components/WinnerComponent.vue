@@ -158,9 +158,6 @@ export default {
   border-radius: 32px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-.swal-button-container {
-  display: none;
-}
 
 .winner-code {
   border-radius: 7px;
