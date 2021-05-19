@@ -184,7 +184,7 @@ export default {
   font-size: 27px;
   color: #000000;
 }
-.swal-icon swal-icon--custom {
+.swal-icon--custom > img {
   width: 133px;
   height: 207px;
   margin-top: -5px;
