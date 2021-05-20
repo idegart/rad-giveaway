@@ -9,6 +9,17 @@
         <div class="alert alert-success" role="alert" v-text="successMessage"></div>
       </template>
       <template v-else>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.email" type="email" class="form-control" id="email" placeholder="Email" :disabled="loading">
+          <label for="email">Email</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.phone" type="text" class="form-control" id="phone" placeholder="Номер телефона" :disabled="loading">
+          <label for="phone">Номер телефона</label>
+        </div>
+
         <div class="form-floating mt-3">
           <input v-model="form.surname" type="text" class="form-control" id="surname" placeholder="Фамилия" :disabled="loading">
           <label for="surname">Фамилия</label>
@@ -24,7 +35,7 @@
           <label for="patronymic">Отчество</label>
         </div>
 
-        <div class="row mt-3 g-2">
+        <div class="row mt-3 g-2 mb-3">
           <div class="text-left" style="text-align: left">
             <label for="patronymic"><b>Дата рождения</b></label>
           </div>
@@ -47,6 +58,19 @@
             </select>
           </div>
         </div>
+
+        <div style="text-align: left">
+          <div class="mb-3 form-check">
+            <input v-model="form.a1" type="checkbox" class="form-check-input" id="a1">
+            <label class="form-check-label" for="a1">Даю согласие на обработку персональных данных</label>
+          </div>
+
+          <div class="mb-3 form-check">
+            <input v-model="form.a2" type="checkbox" class="form-check-input" id="a2">
+            <label class="form-check-label" for="a2">Согласен с правилами проведения Конкурса</label>
+          </div>
+        </div>
+
         <button :disabled="btnDisabled" class="w-100 btn btn-lg btn-primary mt-3" type="submit">Отправить</button>
       </template>
     </form>
@@ -61,12 +85,16 @@ export default {
   name: "RegistrationComponent",
   data: () => ({
     form: {
+      email: '',
+      phone: '',
       surname: '',
       name: '',
       patronymic: '',
       day: null,
       month: null,
       year: null,
+      a1: false,
+      a2: false,
     },
     loading: false,
     submitted: false,
@@ -75,7 +103,7 @@ export default {
 
   computed: {
     btnDisabled() {
-      return !(this.form.surname && this.form.name && this.form.patronymic && this.form.day && this.form.month && this.form.year && !this.loading)
+      return !(this.form.a1 && this.form.a2 && this.form.email && this.form.phone && this.form.surname && this.form.name && this.form.patronymic && this.form.day && this.form.month && this.form.year && !this.loading)
     },
     months () {
       return {

@@ -10,7 +10,8 @@
       <form autocomplete="off" @submit.prevent="deleteParticipants">
         <h1 class="h3 fw-normal mb-3">Удалить участников</h1>
         <h3 class="h4 mb-3">Всего: {{ total }}</h3>
-        <button :disabled="loading" class="w-100 btn btn-lg btn-primary" type="submit">Удалить</button>
+        <button :disabled="loading" class="w-100 btn btn-lg btn-danger" type="submit">Удалить</button>
+        <button @click="download" :disabled="loading" class="w-100 btn btn-lg btn-info mt-3" type="button">Скачать</button>
       </form>
     </template>
   </main>
@@ -33,6 +34,14 @@ export default {
       axios.get('/api/participants')
           .then(({data}) => {
             this.total = data.participants
+          })
+    },
+    download() {
+      axios.get('/api/download-participants')
+          .then(({data}) => {
+            if (data.success) {
+              window.location.href = data.success
+            }
           })
     },
     deleteParticipants() {

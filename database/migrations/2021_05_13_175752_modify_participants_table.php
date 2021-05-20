@@ -18,17 +18,20 @@ class ModifyParticipantsTable extends Migration
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
 
+            $table->string('email')->unique();
+            $table->string('phone')->unique();
+
             $table->string('surname');
             $table->string('name');
-            $table->string('patronymic')->nullable();
+            $table->string('patronymic');
 
             $table->integer('day');
             $table->integer('month');
             $table->integer('year');
 
-            $table->timestamps();
+            $table->dateTime('winner_at')->nullable();
 
-            $table->unique(['surname', 'name', 'patronymic', 'day', 'month', 'year']);
+            $table->timestamps();
         });
     }
 

@@ -12,6 +12,15 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'email' => [
+                'required',
+                'string',
+                'email',
+            ],
+            'phone' => [
+                'required',
+                'string',
+            ],
             'surname' => [
                 'required',
                 'string',
@@ -48,11 +57,19 @@ class RegisterRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'email.unique' => 'Вы уже зарегистрированы! Повторная регистрация невозможна.',
+            'phone.unique' => 'Вы уже зарегистрированы! Повторная регистрация невозможна.',
+        ];
+    }
+
     public function withValidator(Validator $validator): void
     {
         $validator->after(function ($validator) {
             if ($this->participantExists()) {
-                $validator->errors()->add('full_name', 'Вы уже зарегистрированы! Повторная регистрация невозможна.');
+                $validator->errors()->add('exists', 'Вы уже зарегистрированы! Повторная регистрация невозможна.');
             }
 
             if (!$this->dateValid()) {
@@ -64,12 +81,8 @@ class RegisterRequest extends FormRequest
     public function participantExists(): bool
     {
         return Participant::query()
-            ->where('surname', $this->input('surname'))
-            ->where('name', $this->input('name'))
-            ->where('patronymic', $this->input('patronymic'))
-            ->where('day', $this->input('day'))
-            ->where('month', $this->input('month'))
-            ->where('year', $this->input('year'))
+            ->where('email', $this->input('email'))
+            ->orWhere('phone', $this->input('phone'))
             ->exists();
     }
 
