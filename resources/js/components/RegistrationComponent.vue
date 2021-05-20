@@ -11,16 +11,6 @@
       <template v-else>
 
         <div class="form-floating mt-3">
-          <input v-model="form.email" type="email" class="form-control" id="email" placeholder="Email" :disabled="loading">
-          <label for="email">Email</label>
-        </div>
-
-        <div class="form-floating mt-3">
-          <input v-model="form.phone" type="text" class="form-control" id="phone" placeholder="Номер телефона" :disabled="loading">
-          <label for="phone">Номер телефона</label>
-        </div>
-
-        <div class="form-floating mt-3">
           <input v-model="form.surname" type="text" class="form-control" id="surname" placeholder="Фамилия" :disabled="loading">
           <label for="surname">Фамилия</label>
         </div>
@@ -33,6 +23,16 @@
         <div class="form-floating mt-3">
           <input v-model="form.patronymic" type="text" class="form-control" id="patronymic" placeholder="Отчество" :disabled="loading">
           <label for="patronymic">Отчество</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.phone" type="text" class="form-control" id="phone" placeholder="Номер телефона" :disabled="loading">
+          <label for="phone">Номер телефона</label>
+        </div>
+
+        <div class="form-floating mt-3">
+          <input v-model="form.email" type="email" class="form-control" id="email" placeholder="Email" :disabled="loading">
+          <label for="email">Email</label>
         </div>
 
         <div class="row mt-3 g-2 mb-3">
