@@ -4,6 +4,7 @@ namespace App\Http\Requests\Lottery;
 
 use App\Models\Participant;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 
@@ -83,6 +84,14 @@ class RegisterRequest extends FormRequest
         return Participant::query()
             ->where('email', $this->input('email'))
             ->orWhere('phone', $this->input('phone'))
+            ->orWhere(function (Builder $query) {
+                $query->where('surname', $this->input('surname'))
+                    ->where('name', $this->input('name'))
+                    ->where('patronymic', $this->input('patronymic'))
+                    ->where('day', $this->input('day'))
+                    ->where('month', $this->input('month'))
+                    ->where('year', $this->input('year'));
+            })
             ->exists();
     }
 
@@ -92,6 +101,6 @@ class RegisterRequest extends FormRequest
             $this->input('year'),
             $this->input('month'),
             $this->input('day'),
-        )->lessThanOrEqualTo(Carbon::create(2003, 5, 21));
+        )->lessThanOrEqualTo(now()->subYears(18));
     }
 }
