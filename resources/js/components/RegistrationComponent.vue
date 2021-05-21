@@ -77,6 +77,11 @@
               </button>
             </label>
           </div>
+
+          <div class="mb-3 form-check">
+            <input v-model="form.a3" type="checkbox" class="form-check-input" id="a3">
+            <label class="form-check-label" for="a3">Согласен на получение информации от Hisense</label>
+          </div>
         </div>
 
         <!-- Modal -->
@@ -248,6 +253,7 @@ export default {
       year: null,
       a1: false,
       a2: false,
+      a3: false,
     },
     loading: false,
     submitted: false,
@@ -256,7 +262,7 @@ export default {
 
   computed: {
     btnDisabled() {
-      return !(this.form.a1 && this.form.a2 && this.form.email && this.form.phone && this.form.surname && this.form.name && this.form.patronymic && this.form.day && this.form.month && this.form.year && !this.loading)
+      return !(this.form.a1 && this.form.a2 && this.form.a3 && this.form.email && this.form.phone && this.form.surname && this.form.name && this.form.patronymic && this.form.day && this.form.month && this.form.year && !this.loading)
     },
     months () {
       return {
