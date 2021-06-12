@@ -172,7 +172,7 @@ export default {
 
       axios.post('api/register', this.form)
           .then(() => {
-            this.successMessage = "Отлично! Вы зарегистрированы, ожидайте розыгрыша призов в 18.00 у главной сцены."
+            this.successMessage = "Спасибо за регистрацию!"
           })
           .catch(({response}) => {
             let errors = response.data.errors
